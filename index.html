@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Domaine Sidi Abdallah — Calendrier Projet</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #F5EFE4;
+    --cream: #FAF7F2;
+    --terracotta: #C4734A;
+    --terracotta-light: #D98B62;
+    --olive: #5C6B4A;
+    --olive-light: #7A8C65;
+    --ink: #1E1C18;
+    --ink-muted: #4A4640;
+    --ink-faint: #8C877E;
+    --gold: #B8965A;
+    --rule: #D8CEBF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 56px 64px 40px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    background: var(--cream);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+
+  .logo-block h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 28px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+  }
+
+  .logo-block h1 span {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  .logo-block p {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-top: 4px;
+  }
+
+  .header-meta {
+    text-align: right;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    line-height: 1.8;
+  }
+
+  /* ── LEGEND ── */
+  .legend-bar {
+    padding: 18px 64px;
+    background: var(--sand);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .legend-label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-right: 8px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN TIMELINE ── */
+  main {
+    padding: 0 64px 80px;
+  }
+
+  /* Phase headers */
+  .phase-block {
+    margin-top: 64px;
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .phase-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--rule);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .phase-info h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+
+  .phase-info p {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-top: 2px;
+  }
+
+  .phase-tag {
+    margin-left: auto;
+    padding: 4px 14px;
+    border-radius: 2px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ── TIMELINE ROWS ── */
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 0;
+    margin-top: 0;
+  }
+
+  .timeline-row {
+    display: contents;
+  }
+
+  .timeline-row:last-child .tl-bar-cell {
+    border-bottom: none;
+  }
+
+  .tl-label-cell {
+    padding: 20px 24px 20px 0;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .tl-track-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .tl-track-icon {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .tl-bar-cell {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    overflow: visible;
+  }
+
+  /* Month scale */
+  .month-scale {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    margin-top: 32px;
+    padding-left: 180px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 8px;
+  }
+
+  .month-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: center;
+  }
+
+  .month-label.current {
+    color: var(--terracotta);
+    font-weight: 500;
+  }
+
+  /* Bar SVG area */
+  .bars-area {
+    position: relative;
+  }
+
+  /* ── MILESTONE CARDS (below timeline) ── */
+  .milestones-section {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 2px solid var(--ink);
+  }
+
+  .milestones-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .milestones-section h3::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .milestone-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .milestone-card {
+    background: var(--cream);
+    padding: 28px 24px;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .milestone-card:hover {
+    background: var(--sand);
+  }
+
+  .milestone-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+  }
+
+  .mc-date {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
+
+  .mc-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .mc-desc {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ink-muted);
+  }
+
+  .mc-status {
+    margin-top: 14px;
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 1px;
+  }
+
+  /* ── COLORS ── */
+  .c-reno    { background: var(--terracotta); }
+  .c-content { background: var(--olive); }
+  .c-web     { background: var(--gold); }
+  .c-launch  { background: var(--ink); }
+
+  .mc-reno::before    { background: var(--terracotta); }
+  .mc-content::before { background: var(--olive); }
+  .mc-web::before     { background: var(--gold); }
+  .mc-launch::before  { background: var(--ink); }
+
+  .badge-reno    { background: rgba(196,115,74,0.12); color: var(--terracotta); }
+  .badge-content { background: rgba(92,107,74,0.12); color: var(--olive); }
+  .badge-web     { background: rgba(184,150,90,0.12); color: #8A6C30; }
+  .badge-launch  { background: rgba(30,28,24,0.08); color: var(--ink-muted); }
+
+  /* ── SVG TIMELINE ── */
+  svg.timeline-svg {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .today-line {
+    stroke: var(--terracotta);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 80px;
+    padding: 24px 64px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    header, main, .legend-bar, footer {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .month-scale { padding-left: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-block">
+    <h1>Domaine <span>Sidi Abdallah</span></h1>
+    <p>Calendrier de développement du projet — 2026</p>
+  </div>
+  <div class="header-meta">
+    <div>Réunion du 23 Février 2026</div>
+    <div>Rached · Lilia · Elyssa</div>
+  </div>
+</header>
+
+<!-- LEGEND -->
+<div class="legend-bar">
+  <span class="legend-label">Catégories</span>
+  <div class="legend-item"><span class="legend-dot c-reno"></span> Rénovation</div>
+  <div class="legend-item"><span class="legend-dot c-content"></span> Contenu & Assets</div>
+  <div class="legend-item"><span class="legend-dot c-web"></span> Site Web</div>
+  <div class="legend-item"><span class="legend-dot c-launch"></span> Lancement & Marketing</div>
+</div>
+
+<main>
+
+  <!-- VISUAL GANTT CHART -->
+  <div style="margin-top: 48px;">
+
+    <!-- Month scale -->
+    <div style="display:grid; grid-template-columns: 180px repeat(12,1fr); border-bottom: 1px solid var(--rule); padding-bottom: 10px; gap:0;">
+      <div></div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--terracotta);font-weight:500;text-align:center;">Fév</div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:center;">Mar</div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:center;">Avr</div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:center;">Mai</div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:center;">Jun</div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:center;">Jul</div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:center;">Aoû</div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:center;">Sep</div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:center;">Oct</div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:center;">Nov</div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:center;">Déc</div>
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:center;">2027+</div>
+    </div>
+
+    <!-- Gantt rows -->
+    <!-- Each row: label (180px) + 12 month columns -->
+    <!-- Bars are absolutely positioned within the 12-col area using left/width percentages -->
+    <!-- 0% = Feb start, 100% = end of Jan 2027 -->
+    <!-- Each month = 1/12 = 8.333% -->
+
+    <div id="gantt-container" style="position:relative;">
+
+      <!-- ROW: Photos Phase I -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--rule);">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Contenu</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Photos Phase I</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Propriété / orangers</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <!-- Feb-Mar: col 1-2, so 0% to 16.67% -->
+          <div style="position:absolute; top:50%; transform:translateY(-50%); left:0%; width:16.67%; height:10px; background:var(--olive); border-radius:2px; opacity:0.85;">
+            <span style="position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:9px;color:white;letter-spacing:.05em;white-space:nowrap;">Fév–Mar</span>
+          </div>
+          <!-- Today marker at ~23/28 of Feb = ~0.82/12 = 6.83% -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Logos -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--rule);">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Contenu</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Validation logos</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Revue & feedback</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <!-- Feb to mid-Mar -->
+          <div style="position:absolute; top:50%; transform:translateY(-50%); left:0%; width:12.5%; height:10px; background:var(--olive); border-radius:2px; opacity:0.85;">
+          </div>
+          <!-- Diamond milestone mid-March -->
+          <div style="position:absolute; top:50%; transform:translate(-50%,-50%) rotate(45deg); left:12.5%; width:12px; height:12px; background:var(--olive); border:2px solid var(--cream);"></div>
+          <span style="position:absolute;left:13%;top:calc(50% + 12px);font-size:9px;color:var(--olive);white-space:nowrap;letter-spacing:.05em;">Mi-mars</span>
+          <!-- Today marker -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Textes FR/EN -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--rule);">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Contenu</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Textes FR / EN</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Relecture Lilia → final</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <div style="position:absolute; top:50%; transform:translateY(-50%); left:0%; width:8.33%; height:10px; background:var(--olive); border-radius:2px; opacity:0.85;">
+          </div>
+          <!-- milestone end of Feb / early Mar -->
+          <div style="position:absolute; top:50%; transform:translate(-50%,-50%) rotate(45deg); left:8.33%; width:12px; height:12px; background:var(--olive); border:2px solid var(--cream);"></div>
+          <span style="position:absolute;left:9%;top:calc(50% + 12px);font-size:9px;color:var(--olive);white-space:nowrap;letter-spacing:.05em;">Mars</span>
+          <!-- Today marker -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Rénovation Maison Principale -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--rule);">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Rénovation</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Maison principale</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Travaux intérieurs</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <!-- Starts ~April 6 = ~col 3 + a bit: 2/12 + 0.2 = ~17.8% -->
+          <div style="position:absolute; top:50%; transform:translateY(-50%); left:17.8%; width:50%; height:10px; background:var(--terracotta); border-radius:2px; opacity:0.85;">
+            <span style="position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:9px;color:white;letter-spacing:.05em;white-space:nowrap;">Avr 2026 → Fin 2026 (TBD)</span>
+          </div>
+          <!-- Diamond milestone start -->
+          <div style="position:absolute; top:50%; transform:translate(-50%,-50%) rotate(45deg); left:17.8%; width:12px; height:12px; background:var(--terracotta); border:2px solid var(--cream);"></div>
+          <span style="position:absolute;left:18.5%;top:calc(50% + 12px);font-size:9px;color:var(--terracotta);white-space:nowrap;letter-spacing:.05em;">6 avr</span>
+          <!-- Today marker -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Rénovation Wellness -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--rule);">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Rénovation</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Espace Wellness</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Ancienne étable · plans TBD</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <!-- TBD - show as dashed from ~June onwards -->
+          <div style="position:absolute; top:50%; transform:translateY(-50%); left:33.33%; width:50%; height:10px; background:var(--terracotta); border-radius:2px; opacity:0.35; border:1px dashed var(--terracotta);">
+            <span style="position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--terracotta);letter-spacing:.05em;white-space:nowrap;">Planning à confirmer</span>
+          </div>
+          <!-- Today marker -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Site Web Phase I -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--rule);">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Site Web</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Phase I — Structure</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Textes + Logos + Charte</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <!-- Avr-Mai: col 3-4 = 16.67% to 33.33% -->
+          <div style="position:absolute; top:50%; transform:translateY(-50%); left:16.67%; width:16.67%; height:10px; background:var(--gold); border-radius:2px; opacity:0.9;">
+            <span style="position:absolute;left:6px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--ink);letter-spacing:.05em;white-space:nowrap;">Avr–Mai</span>
+          </div>
+          <!-- Today marker -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Photos Phase II (Making-of) -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--rule);">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Contenu</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Photos Phase II</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Making-of rénovation</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <!-- Mai-Jun: col 4-5 = 25% to 41.67% -->
+          <div style="position:absolute; top:50%; transform:translateY(-50%); left:25%; width:16.67%; height:10px; background:var(--olive); border-radius:2px; opacity:0.85;">
+            <span style="position:absolute;left:6px;top:50%;transform:translateY(-50%);font-size:9px;color:white;letter-spacing:.05em;white-space:nowrap;">Mai–Jun</span>
+          </div>
+          <!-- Today marker -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Teasers / Pre-launch -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--rule);">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Lancement</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Teasers réseaux sociaux</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Making-of → 3 mois</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <!-- Apr to Jun: 16.67% to 41.67% -->
+          <div style="position:absolute; top:50%; transform:translateY(-50%); left:16.67%; width:25%; height:10px; background:var(--ink); border-radius:2px; opacity:0.75;">
+            <span style="position:absolute;left:6px;top:50%;transform:translateY(-50%);font-size:9px;color:white;letter-spacing:.05em;white-space:nowrap;">Avr → Jun (3 mois)</span>
+          </div>
+          <!-- Today marker -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Lancement officiel -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--rule);">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Lancement</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Lancement officiel</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Restaurant + Retraites</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <!-- ~H2 2026, let's say ~Sep = col 8 = 58.33% -->
+          <div style="position:absolute; top:50%; transform:translate(-50%,-50%) rotate(45deg); left:58.33%; width:14px; height:14px; background:var(--ink); border:2px solid var(--cream);"></div>
+          <span style="position:absolute;left:59%;top:calc(50% + 12px);font-size:9px;color:var(--ink-muted);white-space:nowrap;letter-spacing:.05em;">H2 2026 (TBD)</span>
+          <!-- Today marker -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Site Web Phase II -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--rule);">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Site Web</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Phase II — Mise à jour</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Photos finales + Prix</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <!-- End 2026: Nov-Dec = col 10-12 = 75% to 91.67% -->
+          <div style="position:absolute; top:50%; transform:translateY(-50%); left:75%; width:16.67%; height:10px; background:var(--gold); border-radius:2px; opacity:0.9;">
+            <span style="position:absolute;left:6px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--ink);letter-spacing:.05em;white-space:nowrap;">Fin 2026</span>
+          </div>
+          <!-- Today marker -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Photos Phase III -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--rule);">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Contenu</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Photos Phase III</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Produit final révélé</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <!-- TBD - dashed at end 2026+ -->
+          <div style="position:absolute; top:50%; transform:translateY(-50%); left:83.33%; width:16.67%; height:10px; background:var(--olive); border-radius:2px; opacity:0.4; border:1px dashed var(--olive);">
+            <span style="position:absolute;left:4px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--olive);letter-spacing:.05em;white-space:nowrap;">TBD</span>
+          </div>
+          <!-- Today marker -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <!-- ROW: Site Web Phase III (continu) -->
+      <div style="display:grid; grid-template-columns:180px 1fr; border-bottom:none;">
+        <div style="padding:16px 20px 16px 0; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;">Site Web</div>
+          <div style="font-size:12px;color:var(--ink-muted);">Phase III — Suivi</div>
+          <div style="font-size:10px;color:var(--ink-faint);">Événements + Contenu continu</div>
+        </div>
+        <div style="position:relative; padding:14px 0; min-height:60px;">
+          <!-- From launch onwards ~Sep to end -->
+          <div style="position:absolute; top:50%; transform:translateY(-50%); left:58.33%; width:41.67%; height:10px; background:var(--gold); border-radius:2px; opacity:0.5; border:1px dashed #B8965A;">
+            <span style="position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:9px;color:#8A6C30;letter-spacing:.05em;white-space:nowrap;">En continu post-lancement</span>
+          </div>
+          <!-- Today marker -->
+          <div style="position:absolute;top:0;bottom:0;left:6.83%;width:1px;background:var(--terracotta);opacity:0.5;"></div>
+        </div>
+      </div>
+
+    </div><!-- /gantt-container -->
+
+    <!-- TODAY LABEL -->
+    <div style="position:relative; height:24px; margin-top:4px;">
+      <div style="position:absolute; left:calc(180px + 6.83%); transform:translateX(-50%);">
+        <div style="display:inline-flex;align-items:center;gap:6px;background:var(--terracotta);color:white;font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:3px 10px;border-radius:2px;">
+          ● Aujourd'hui — 23 Fév
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── MILESTONE CARDS ── -->
+  <div class="milestones-section">
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;letter-spacing:.06em;">Jalons clés du projet</h3>
+
+    <div class="milestone-grid">
+
+      <div class="milestone-card mc-content">
+        <div class="mc-date">Fév — Mars 2026</div>
+        <div class="mc-title">Shooting photos de la propriété</div>
+        <div class="mc-desc">Phase I de production visuelle : capturer la propriété pendant que les orangers sont encore en fruits. Contenu essentiel pour nourrir le storytelling du lancement.</div>
+        <span class="mc-status badge-content">En cours</span>
+      </div>
+
+      <div class="milestone-card mc-content">
+        <div class="mc-date">Mars 2026</div>
+        <div class="mc-title">Textes FR/EN finalisés</div>
+        <div class="mc-desc">Relecture par Lilia de la version française, retours à Rached, puis transmission de la version définitive au développeur.</div>
+        <span class="mc-status badge-content">En attente — Lilia</span>
+      </div>
+
+      <div class="milestone-card mc-content">
+        <div class="mc-date">Mi-Mars 2026</div>
+        <div class="mc-title">Validation finale des logos</div>
+        <div class="mc-desc">Clôture du processus de revue et feedback en cours. Transmission au développeur par mail dès validation.</div>
+        <span class="mc-status badge-content">En cours de revue</span>
+      </div>
+
+      <div class="milestone-card mc-reno">
+        <div class="mc-date">Semaine du 6 Avril 2026</div>
+        <div class="mc-title">Démarrage rénovation — Maison principale</div>
+        <div class="mc-desc">Début des travaux de rénovation intérieure. Devis obtenus. L'espace Wellness (ancienne étable) est encore en phase d'études architecturales.</div>
+        <span class="mc-status badge-reno">Planifié</span>
+      </div>
+
+      <div class="milestone-card mc-web">
+        <div class="mc-date">Avril — Mai 2026</div>
+        <div class="mc-title">Site Web Phase I — Structure</div>
+        <div class="mc-desc">Construction de la structure générale du site, intégration des textes existants, application de la charte graphique et des logos validés.</div>
+        <span class="mc-status badge-web">Prochaine étape</span>
+      </div>
+
+      <div class="milestone-card mc-launch">
+        <div class="mc-date">Avr — Juin 2026</div>
+        <div class="mc-title">Campagne de teasers — Réseaux sociaux</div>
+        <div class="mc-desc">Diffusion des vidéos "making-of" tournées pendant les rénovations sur 3 mois. Pré-lancement en parallèle du développement du site.</div>
+        <span class="mc-status badge-launch">Planifié</span>
+      </div>
+
+      <div class="milestone-card mc-content">
+        <div class="mc-date">Mai — Juin 2026</div>
+        <div class="mc-title">Photos Phase II — Making-of rénovation</div>
+        <div class="mc-desc">Deux jours de shooting pour documenter le processus de rénovation (début + milieu des travaux). Alimentation du storytelling digital.</div>
+        <span class="mc-status badge-content">Planifié</span>
+      </div>
+
+      <div class="milestone-card mc-launch">
+        <div class="mc-date">H2 2026 — Date TBD</div>
+        <div class="mc-title">Lancement officiel en ligne</div>
+        <div class="mc-desc">Ouverture du restaurant farm-to-table et des premières retraites bien-être (yoga). Lancement sur les réseaux sociaux avec lien vers le site. Priorité : clients tunisiens.</div>
+        <span class="mc-status badge-launch">Conditionnel — fin rénovation</span>
+      </div>
+
+      <div class="milestone-card mc-web">
+        <div class="mc-date">Fin 2026</div>
+        <div class="mc-title">Site Web Phase II — Mise à jour finale</div>
+        <div class="mc-desc">Ajout des photos et vidéos de la propriété rénovée. Intégration des prix définitifs. Ouverture de la réservation en ligne (chambres + expériences).</div>
+        <span class="mc-status badge-web">Planifié</span>
+      </div>
+
+      <div class="milestone-card mc-content">
+        <div class="mc-date">TBD — Post-rénovation</div>
+        <div class="mc-title">Photos Phase III — Révélation finale</div>
+        <div class="mc-desc">Shooting final de la propriété achevée, destiné au site web et aux réseaux sociaux. Date dépendante de la fin des travaux.</div>
+        <span class="mc-status badge-content">À confirmer</span>
+      </div>
+
+      <div class="milestone-card mc-web" style="grid-column: span 2;">
+        <div class="mc-date">1 an post-lancement — En continu</div>
+        <div class="mc-title">Site Web Phase III — Intégration complète des 4 piliers</div>
+        <div class="mc-desc">Mise à jour régulière du calendrier des événements et retraites. Ajout des avis clients. Mise en avant des expériences combinées (restaurant + hôtel + wellness + expériences). Objectif : devenir la référence agrotourisme en Tunisie.</div>
+        <span class="mc-status badge-web">En continu</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DEPENDENCIES CALLOUT -->
+  <div style="margin-top:48px; padding:32px; background:var(--sand); border-left:3px solid var(--terracotta);">
+    <div style="font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--terracotta);margin-bottom:12px;">Dépendances critiques</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:15px;margin-bottom:4px;">Textes → Site Phase I</div>
+        <div style="font-size:11px;color:var(--ink-muted);line-height:1.5;">La version finale des textes (après relecture Lilia) est le prérequis immédiat pour démarrer le développement du site.</div>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:15px;margin-bottom:4px;">Logos → Site Phase I</div>
+        <div style="font-size:11px;color:var(--ink-muted);line-height:1.5;">La validation mi-mars conditionne directement l'intégration de la charte graphique dans la Phase I (Avr–Mai).</div>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:15px;margin-bottom:4px;">Rénovation → Lancement</div>
+        <div style="font-size:11px;color:var(--ink-muted);line-height:1.5;">La date du lancement officiel reste conditionnelle à l'avancement des travaux. Espace Wellness particulièrement incertain.</div>
+      </div>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:15px;margin-bottom:4px;">Photos III → Site Phase II</div>
+        <div style="font-size:11px;color:var(--ink-muted);line-height:1.5;">Les photos de la propriété rénovée alimentent la mise à jour finale du site (prix + visuels définitifs).</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>Domaine Sidi Abdallah — Document de travail interne</p>
+  <p>Réunion du 23 Février 2026</p>
+</footer>
+
+</body>
+</html>
