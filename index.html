@@ -83,6 +83,10 @@
     gap: 32px;
     align-items: center;
     flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    backdrop-filter: blur(8px);
   }
 
   .legend-label {
@@ -767,5 +771,16 @@
   <p>Réunion du 23 Février 2026</p>
 </footer>
 
+<script>
+  function setLegendTop() {
+    const header = document.querySelector('header');
+    const legend = document.querySelector('.legend-bar');
+    if (header && legend) {
+      legend.style.top = header.offsetHeight + 'px';
+    }
+  }
+  setLegendTop();
+  window.addEventListener('resize', setLegendTop);
+</script>
 </body>
 </html>
